@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   fontSize: 18.sp,
                   textAlign: TextAlign.start,
-                  text: 'Hi Maxime!',
+                  text: 'Hi Maxime!!',
                 ),
 
                 SizedBox(width: 6.w),
