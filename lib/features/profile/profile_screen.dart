@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pler_to_pler_app/core/utils/constants/app_colors.dart';
 import 'package:pler_to_pler_app/custom_assets/assets.gen.dart';
+import 'package:pler_to_pler_app/features/profile/children/edit_profile_screen.dart';
 import 'package:pler_to_pler_app/features/profile/widgets/exercise_card_widget.dart';
 import 'package:pler_to_pler_app/features/profile/widgets/services_card_widget.dart';
 import 'package:pler_to_pler_app/features/settings/settings_screen.dart';
@@ -74,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         top: 154.h,
                           left: 16.w,
                           child: CustomImageAvatar(
-                            image: '',
+                            image: "https://picsum.photos/300",
                             showBorder: true,
                             radius: 54.r,
 
@@ -92,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: 32.h,
                             width: 119.w,
                             onPressed: (){
-                              /// TODO:
+                              Get.to(() => EditProfileScreen());
                             },
                             label: 'Edit Profile',
 
