@@ -17,68 +17,76 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: CustomAppBar(title: 'Settings'),
-
+      appBar: CustomAppBar(
+        title: 'Settings',
+      ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
+        padding: EdgeInsets.symmetric(horizontal: 5.w),
         child: Column(
           children: [
             SizedBox(height: 16.h),
+
+            // --- Account Section ---
             _buildContainerCard(
               label: 'Account',
               children: [
                 CustomContainer(
-                  color: Colors.black.withOpacity(0.08),
+                  color: Colors.black.withOpacity(0.05), // Matches light grey fill
                   width: double.infinity,
-                  paddingAll: 12.r,
+                  paddingAll: 14.r,
                   radiusAll: 12.r,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
                         text: 'Email',
-                        fontSize: 12.sp,
-                        color: AppColors.textSecondary,
-                        bottom: 2.h,
+                        fontSize: 11.sp,
+                        color: Colors.grey,
+                        bottom: 4.h,
                       ),
-                      CustomText(text: 'Ethancarter77@gmail.com'),
+                      CustomText(
+                        text: 'Ethancarter77@gmail.com',
+                        fontWeight: FontWeight.w500,
+                      ),
                     ],
                   ),
-                ),
-                SizedBox(height: 8.h),
-
-                _buildCardListWidget(
-                  isSpacer: false,
-                  label: 'App Preferences',
-                  onTap: () {
-                    Get.to(() => AccountDetailsScreen());
-                  },
                 ),
               ],
             ),
 
-            // SizedBox(height: 8.h),
-            // _buildContainerCard(
-            //   label: 'App',
-            //   children: [
-            //     _buildCardListWidget(label: 'App Preferences', onTap: () {
-            //       Get.to(() => AccountDetailsScreen());
-            //     }),
-            //     //_buildCardListWidget(label: 'Language & Region', onTap: () {},isSpacer: false,),
-            //     // _buildCardListWidget(
-            //     //   label: 'Notifications',
-            //     //   onTap: () {},
-            //     //   isSpacer: false,
-            //     // ),
-            //   ],
-            // ),
-            SizedBox(height: 8.h),
+            SizedBox(height: 12.h),
+
+            // --- App Section ---
+            _buildContainerCard(
+              label: 'App',
+              children: [
+                _buildCardListWidget(
+                  label: 'App Preferences',
+                  onTap: () => Get.to(() => const AccountDetailsScreen()),
+                ),
+                _buildCardListWidget(
+                  label: 'Language & Region',
+                  onTap: () {},
+                ),
+                _buildCardListWidget(
+                  label: 'Notifications',
+                  onTap: () {},
+                  isSpacer: false, // Last item in section
+                ),
+              ],
+            ),
+
+            SizedBox(height: 12.h),
+
+            // --- Options Section ---
             _buildContainerCard(
               label: 'Options',
               children: [
-                _buildCardListWidget(label: 'Earnings', onTap: () {
-                  Get.to(() => EarningsScreen());
-                }),
+                _buildCardListWidget(
+                  label: 'Earnings',
+                  onTap: () => Get.to(() => const EarningsScreen()),
+                ),
                 _buildCardListWidget(
                   label: 'Privacy & Security',
                   onTap: () {},
@@ -87,10 +95,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ],
             ),
 
-            SizedBox(height: 8.h),
+            SizedBox(height: 12.h),
+
+            // --- About Section ---
             _buildContainerCard(
               label: 'About',
-              sublabel: 'App version 1.58.7.1',
+              sublabel: 'App version 1.58.7.1', // Version alignment
               children: [
                 _buildCardListWidget(label: 'Privacy Policy', onTap: () {}),
                 _buildCardListWidget(label: 'Terms of Service', onTap: () {}),
@@ -99,10 +109,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   label: 'Delete my acount',
                   onTap: () {},
                   isSpacer: false,
-                  textColor: AppColors.error,
+                  textColor: Colors.redAccent, // Red text for danger action
                 ),
               ],
             ),
+            SizedBox(height: 30.h),
           ],
         ),
       ),
@@ -115,7 +126,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     required List<Widget> children,
   }) {
     return CustomContainer(
-      radiusAll: 16.r,
+      radiusAll: 20.r, // More rounded corners
       paddingAll: 16.r,
       color: Colors.white,
       width: double.infinity,
@@ -124,27 +135,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               CustomText(
-                textAlign: TextAlign.start,
                 text: label,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.bold,
                 fontSize: 16.sp,
                 bottom: 12.h,
               ),
               if (sublabel != null)
                 CustomText(
-                  textAlign: TextAlign.end,
                   text: sublabel,
-                  fontSize: 12.sp,
+                  fontSize: 11.sp,
                   bottom: 12.h,
-                  color: AppColors.textSecondary,
+                  color: Colors.grey,
                 ),
             ],
           ),
-
           Column(children: children),
-          //_buildCardListWidget(),
         ],
       ),
     );
@@ -159,23 +167,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return CustomContainer(
       onTap: onTap,
       marginBottom: isSpacer ? 8.h : 0,
-      color: Colors.black.withOpacity(0.08),
+      color: Colors.black.withOpacity(0.05), // Uniform light grey background
       width: double.infinity,
-      paddingAll: 12.r,
+      paddingHorizontal: 16.w,
+      paddingVertical: 14.h,
       radiusAll: 12.r,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CustomText(
             text: label,
-            fontSize: 16.sp,
+            fontSize: 15.sp,
             fontWeight: FontWeight.w600,
-            color: textColor,
+            color: textColor ?? Colors.black,
           ),
           Icon(
             Icons.arrow_forward_ios,
-            size: 16.r,
-            color: textColor ?? AppColors.textSecondary,
+            size: 14.sp,
+            color: Colors.grey,
           ),
         ],
       ),
