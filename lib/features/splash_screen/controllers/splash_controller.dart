@@ -29,13 +29,9 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
 
     animationController.forward();
 
-    navigateToHomeScreen();
-  }
-
-  void navigateToHomeScreen() {
+    // FIXED: Navigate to Onboarding instead of NavBar
     Future.delayed(const Duration(milliseconds: 3000), () {
-      log("Go to onboarding screen");
-      Get.offAll(() => NavBar());
+      Get.offAll(() => OnboardingMainScreen());
     });
   }
 

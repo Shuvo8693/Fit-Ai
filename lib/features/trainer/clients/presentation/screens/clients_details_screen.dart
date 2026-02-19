@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:pler_to_pler_app/core/utils/constants/app_colors.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
 
+import '../../../assignedPlan/presentation/screen/assigned_plan_screen.dart';
 import 'chat_screen.dart';
 
 class ClientDetailsScreen extends StatelessWidget {
@@ -245,24 +246,55 @@ class ClientDetailsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomText(text: "Assigned exercise plan (5/24)", fontWeight: FontWeight.w600),
-              CustomText(text: "Edit", color: Colors.grey),
+              // Optional: You can also make "Edit" clickable
+              GestureDetector(
+                onTap: () => Get.to(() => const AssignedPlanScreen()),
+                child: CustomText(text: "Edit", color: Colors.grey),
+              ),
             ],
           ),
           SizedBox(height: 12.h),
-          CustomContainer(
-            color: Colors.black.withOpacity(0.03),
-            paddingAll: 8.r,
-            radiusAll: 12.r,
-            child: ListTile(
-              leading: ClipRRect(borderRadius: BorderRadius.circular(8.r), child: Image.network('https://picsum.photos/100', width: 50, height: 50, fit: BoxFit.cover)),
-              title: CustomText(text: "20 upper body exercise", fontWeight: FontWeight.bold, fontSize: 14.sp, textAlign: TextAlign.start),
-              subtitle: CustomText(text: "Trainer: Maxime Castel\n20 minutes • 8 Exercise step", fontSize: 11.sp, textAlign: TextAlign.start),
+
+          // Wrap the card with GestureDetector for navigation
+          GestureDetector(
+            onTap: () {
+              debugPrint("Navigating to Assigned Plan Details");
+              Get.to(() => const AssignedPlanScreen());
+            },
+            child: CustomContainer(
+              color: Colors.black.withOpacity(0.03),
+              paddingAll: 8.r,
+              radiusAll: 12.r,
+              child: ListTile(
+                // contentPadding: EdgeInsets.zero, // Add this if you want to remove default ListTile padding
+                leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.r),
+                    child: Image.network(
+                        'https://picsum.photos/100',
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover
+                    )
+                ),
+                title: CustomText(
+                    text: "20 upper body exercise",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.sp,
+                    textAlign: TextAlign.start
+                ),
+                subtitle: CustomText(
+                    text: "Trainer: Maxime Castel\n20 minutes • 8 Exercise step",
+                    fontSize: 11.sp,
+                    textAlign: TextAlign.start
+                ),
+              ),
             ),
           ),
         ],
       ),
     );
   }
+
 
   Widget _buildWaterIntake() {
     return CustomContainer(

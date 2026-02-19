@@ -13,6 +13,7 @@ import '../../../trainer/assignedPlan/presentation/screen/assigned_plan_screen.d
 import '../../../trainer/clients/presentation/screens/clients_screen.dart';
 import '../../../trainer/contentPost/presentation/screens/content_post_screen.dart';
 import '../../../trainer/contents/presentation/screens/contents_screen.dart';
+import '../../../trainer/createExercisePlan/presentation/screen/create_exercise_plan_screen.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -87,7 +88,7 @@ class _NavBarState extends State<NavBar> {
                                 debugPrint("Add Schedule clicked");
                               },
                               onAddExercise: () {
-                                Get.to(() => const AssignedPlanScreen());
+                                Get.to(() => const CreateExercisePlanScreen());
                                 debugPrint("Add Exercise clicked");
                               },
                             );

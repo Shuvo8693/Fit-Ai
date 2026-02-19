@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pler_to_pler_app/features/authentication/presentation/screens/login_screen.dart';
 import 'package:pler_to_pler_app/features/onboarding/model/onboarding_item_model.dart';
 import 'package:pler_to_pler_app/features/onboarding/presentation/screens/onboarding_selection_screen.dart';
 
@@ -21,7 +22,7 @@ class OnboardingController extends GetxController {
       );
     } else {
       log("Next");
-      Get.offAll(() => OnboardingSelectionScreen());
+      Get.offAll(() => LoginScreen());
     }
   }
 

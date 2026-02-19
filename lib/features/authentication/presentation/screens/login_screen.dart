@@ -8,6 +8,8 @@ import 'package:pler_to_pler_app/features/authentication/controllers/login_contr
 import 'package:pler_to_pler_app/features/authentication/presentation/screens/sign_up_screen.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
 
+import '../../../nav_bar/presentation/screens/nav_bar.dart';
+
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -111,6 +113,7 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       log("Validate");
+                      Get.offAll(() => NavBar());
                     } else {
                       log("Not validate");
                     }
