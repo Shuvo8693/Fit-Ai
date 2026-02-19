@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/utils/constants/app_colors.dart';
-import '../../../../widgets/custom_button.dart';
-import '../../../../widgets/custom_container.dart';
-import '../../../../widgets/custom_image_avatar.dart';
-import '../../../../widgets/custom_text.dart';
+import '../../../../../core/utils/constants/app_colors.dart';
+import '../../../../../widgets/custom_button.dart';
+import '../../../../../widgets/custom_container.dart';
+import '../../../../../widgets/custom_image_avatar.dart';
+import '../../../../../widgets/custom_text.dart';
 
 class ClientCardWidget extends StatelessWidget {
   final Map<String, String> client;

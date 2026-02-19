@@ -9,10 +9,10 @@ import 'package:pler_to_pler_app/features/home/home_screen.dart';
 import 'package:pler_to_pler_app/features/nav_bar/controllers/nav_bar_controller.dart';
 import 'package:pler_to_pler_app/features/nav_bar/presentation/screens/widgets/nav_fab_widget.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
-
-import '../../../clients/presentation/screens/clients_screen.dart';
-import '../../../contentPost/presentation/screens/content_post_screen.dart';
-import '../../../contents/presentation/screens/contents_screen.dart';
+import '../../../trainer/assignedPlan/presentation/screen/assigned_plan_screen.dart';
+import '../../../trainer/clients/presentation/screens/clients_screen.dart';
+import '../../../trainer/contentPost/presentation/screens/content_post_screen.dart';
+import '../../../trainer/contents/presentation/screens/contents_screen.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -87,7 +87,7 @@ class _NavBarState extends State<NavBar> {
                                 debugPrint("Add Schedule clicked");
                               },
                               onAddExercise: () {
-                                // Logic for adding exercise plans can go here
+                                Get.to(() => const AssignedPlanScreen());
                                 debugPrint("Add Exercise clicked");
                               },
                             );

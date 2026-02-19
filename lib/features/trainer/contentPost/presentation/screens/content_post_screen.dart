@@ -3,12 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../widgets/custom_app_bar.dart';
-import '../../../../widgets/custom_button.dart';
-import '../../../../widgets/custom_container.dart';
-import '../../../../widgets/custom_scaffold.dart';
-import '../../../../widgets/custom_text.dart';
-import '../../../../widgets/custom_text_field.dart';
+import '../../../../../widgets/custom_app_bar.dart';
+import '../../../../../widgets/custom_button.dart';
+import '../../../../../widgets/custom_container.dart';
+import '../../../../../widgets/custom_scaffold.dart';
+import '../../../../../widgets/custom_text.dart';
+import '../../../../../widgets/custom_text_field.dart';
 
 class ContentPostScreen extends StatefulWidget {
   const ContentPostScreen({super.key});

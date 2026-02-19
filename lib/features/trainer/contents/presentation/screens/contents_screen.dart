@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../../core/utils/constants/app_colors.dart';
-import '../../../../custom_assets/assets.gen.dart';
-import '../../../../widgets/custom_app_bar.dart';
-import '../../../../widgets/custom_container.dart';
-import '../../../../widgets/custom_image_avatar.dart';
-import '../../../../widgets/custom_scaffold.dart';
-import '../../../../widgets/custom_text.dart';
-import '../../../profile/profile_screen.dart';
+import '../../../../../core/utils/constants/app_colors.dart';
+import '../../../../../custom_assets/assets.gen.dart';
+import '../../../../../widgets/custom_app_bar.dart';
+import '../../../../../widgets/custom_container.dart';
+import '../../../../../widgets/custom_image_avatar.dart';
+import '../../../../../widgets/custom_scaffold.dart';
+import '../../../../../widgets/custom_text.dart';
+import '../../../../common/notification/presentation/screen/notification_screen.dart';
+import '../../../../profile/profile_screen.dart';
 import 'content_details_screen.dart';
 
 class ContentsScreen extends StatefulWidget {
@@ -89,7 +90,9 @@ class _ContentsScreenState extends State<ContentsScreen> {
               alignment: Alignment.center,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => NotificationsScreen());
+                  },
                   icon: Assets.icons.notification.svg(
                     height: 42.r,
                     width: 42.r,
