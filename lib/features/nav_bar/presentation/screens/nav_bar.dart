@@ -9,6 +9,11 @@ import 'package:pler_to_pler_app/features/home/home_screen.dart';
 import 'package:pler_to_pler_app/features/nav_bar/controllers/nav_bar_controller.dart';
 import 'package:pler_to_pler_app/features/nav_bar/presentation/screens/widgets/nav_fab_widget.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
+import '../../../trainer/assignedPlan/presentation/screen/assigned_plan_screen.dart';
+import '../../../trainer/clients/presentation/screens/clients_screen.dart';
+import '../../../trainer/contentPost/presentation/screens/content_post_screen.dart';
+import '../../../trainer/contents/presentation/screens/contents_screen.dart';
+import '../../../trainer/createExercisePlan/presentation/screen/create_exercise_plan_screen.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -22,8 +27,8 @@ class _NavBarState extends State<NavBar> {
 
   final List<Widget> _screens = [
     HomeScreen(),
-    HomeScreen(),
-    HomeScreen(),
+    ClientsScreen(),
+    ContentsScreen(),
     HomeScreen(),
   ];
 
@@ -74,14 +79,23 @@ class _NavBarState extends State<NavBar> {
                           onTap: () {
                             NavFabWidget.instance.show(
                               context,
-                              onAddExercise: () {},
-                              onAddSchedule: () {},
-                              onPostContent: () {},
+                              onPostContent: () {
+                                // Navigates to the screen designed from image_b98f83.png
+                                Get.to(() => const ContentPostScreen());
+                              },
+                              onAddSchedule: () {
+                                // Logic for adding schedules can go here
+                                debugPrint("Add Schedule clicked");
+                              },
+                              onAddExercise: () {
+                                Get.to(() => const CreateExercisePlanScreen());
+                                debugPrint("Add Exercise clicked");
+                              },
                             );
                           },
                           child: Assets.icons.addButton.svg(
-                            height: 40.h,
-                            width: 40.w,
+                            height: 48.h, // Adjusted slightly for better touch target
+                            width: 48.w,
                           ),
                         ),
                         _buildNavItem(2),

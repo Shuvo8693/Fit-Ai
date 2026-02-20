@@ -8,6 +8,8 @@ import 'package:pler_to_pler_app/features/authentication/controllers/login_contr
 import 'package:pler_to_pler_app/features/authentication/presentation/screens/sign_up_screen.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
 
+import '../../../nav_bar/presentation/screens/nav_bar.dart';
+
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -25,12 +27,11 @@ class LoginScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                ImagePath.appLogo,
-                width: 84.w,
-                height: 84.h,
+                ImagePath.splash3,
+                width: 150.w,
+                height: 150.h,
                 fit: BoxFit.cover,
               ),
-              SizedBox(height: 16.h),
               CustomText(
                 text: "Sign in to  fitness",
                 fontSize: 32.sp,
@@ -111,6 +112,7 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       log("Validate");
+                      Get.offAll(() => NavBar());
                     } else {
                       log("Not validate");
                     }

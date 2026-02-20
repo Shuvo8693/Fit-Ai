@@ -10,4 +10,8 @@ class ImagePath {
   static const String onboarding1Bg = '$_basePath/onboarding_one_bg_img.png';
   static const String onboarding4Bg = '$_basePath/onboarding_fore_bg_img.png';
   static const String onboarding3Bg = '$_basePath/onboarding_three_bg_img.png';
+  static const String splash3 = '$_basePath/app_icon.png';
+  static const String splash1 = '$_basePath/app_icon_1.png';
+  static const String splash2 = '$_basePath/app_icon_2.png';
+
 }

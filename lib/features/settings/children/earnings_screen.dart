@@ -17,46 +17,40 @@ class EarningsScreen extends StatefulWidget {
 }
 
 class _EarningsScreenState extends State<EarningsScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBar: CustomAppBar(
         title: 'Earnings',
-        actions: [GestureDetector(
-          onTapDown: (details)async{
-          final  selected =   await MenuShowHelper.showCustomMenu(
-              context: context,
-              details: details,
-              options: ['Payout method','Invoices'],
-            );
+        actions: [
+          GestureDetector(
+            onTapDown: (details) async {
+              final selected = await MenuShowHelper.showCustomMenu(
+                context: context,
+                details: details,
+                options: ['Payout method', 'Invoices'],
+              );
 
-          if(selected == 'Payout method'){
-            debugPrint('hy sagol');
-          }else if(selected == 'Invoices'){
-            Get.to(() => InvoicesScreen());
-          }
-          },
-          child: Padding(
-            padding:  EdgeInsets.all(8.0.r),
-            child: Assets.icons.more.svg(),
+              if (selected == 'Payout method') {
+                debugPrint('Payout method selected');
+              } else if (selected == 'Invoices') {
+                Get.to(() => const InvoicesScreen());
+              }
+            },
+            child: Padding(
+              padding: EdgeInsets.all(8.0.r),
+              child: Assets.icons.more.svg(),
+            ),
           ),
-        ),
         ],
       ),
-
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            expandedHeight: 220.h,
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            backgroundColor: AppColors.backgroundLight,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Column(
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
@@ -69,7 +63,6 @@ class _EarningsScreenState extends State<EarningsScreen> {
                       top: 24.h,
                     ),
                   ),
-
                   Center(
                     child: RichText(
                       text: TextSpan(
@@ -85,6 +78,7 @@ class _EarningsScreenState extends State<EarningsScreen> {
                             style: TextStyle(
                               color: AppColors.textSecondary,
                               fontWeight: FontWeight.w500,
+                              fontSize: 20.sp,
                             ),
                             text: ' USD',
                           ),
@@ -92,14 +86,12 @@ class _EarningsScreenState extends State<EarningsScreen> {
                       ),
                     ),
                   ),
-
-                  SizedBox(height: 16.h),
-
+                  SizedBox(height: 24.h),
                   CustomContainer(
                     width: double.infinity,
-                    radiusAll: 12.r,
+                    radiusAll: 16.r,
                     color: Colors.white,
-                    paddingAll: 16.r,
+                    paddingAll: 18.r,
                     child: RichText(
                       text: TextSpan(
                         style: TextStyle(
@@ -108,7 +100,7 @@ class _EarningsScreenState extends State<EarningsScreen> {
                           fontWeight: FontWeight.w500,
                           fontSize: 16.sp,
                         ),
-                        text: 'Pending balance',
+                        text: 'Pending balance ',
                         children: [
                           TextSpan(
                             style: TextStyle(
@@ -122,25 +114,31 @@ class _EarningsScreenState extends State<EarningsScreen> {
                       ),
                     ),
                   ),
-
                   CustomText(
                     text: 'Transaction history',
                     fontWeight: FontWeight.w600,
                     fontSize: 18.sp,
-                    bottom: 8.h,
+                    bottom: 12.h,
                     top: 24.h,
                   ),
                 ],
               ),
             ),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate((
-              BuildContext context,
-              int index,
-            ) {
-              return TransationHistoryWidget();
-            }, childCount: 10),
+
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                    (context, index) => const TransationHistoryWidget(),
+                childCount: 10,
+              ),
+            ),
+          ),
+
+          // FIXED HERE: Wrapped in SliverToBoxAdapter
+          SliverToBoxAdapter(
+            child: SizedBox(height: 30.h),
           ),
         ],
       ),
@@ -148,7 +146,11 @@ class _EarningsScreenState extends State<EarningsScreen> {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16.r),
-          child: CustomButton(onPressed: () {}, label: 'Withdraw'),
+          child: CustomButton(
+            onPressed: () {},
+            label: 'Withdraw',
+            width: double.infinity,
+          ),
         ),
       ),
     );

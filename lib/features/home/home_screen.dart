@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pler_to_pler_app/core/utils/constants/app_colors.dart';
 import 'package:pler_to_pler_app/custom_assets/assets.gen.dart';
+import 'package:pler_to_pler_app/features/common/notification/presentation/screen/notification_screen.dart';
 import 'package:pler_to_pler_app/features/home/widgets/ai_insight_widget.dart';
 import 'package:pler_to_pler_app/features/home/widgets/session_card_widget.dart';
 import 'package:pler_to_pler_app/features/profile/profile_screen.dart';
@@ -32,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   fontSize: 18.sp,
                   textAlign: TextAlign.start,
-                  text: 'Hi Maxime!',
+                  text: 'Hi Maxime!!',
                 ),
 
                 SizedBox(width: 6.w),
@@ -59,7 +60,9 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => NotificationsScreen());
+            },
             icon: Assets.icons.notification.svg(height: 48.r, width: 48.r),
           ),
         ],
@@ -155,7 +158,7 @@ class HomeScreen extends StatelessWidget {
 
             SizedBox(height: 8.h),
 
-            AiInsightWidget(),
+            // AiInsightWidget(),
 
             SizedBox(height: 100.h),
           ],
