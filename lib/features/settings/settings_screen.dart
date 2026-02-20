@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:pler_to_pler_app/core/utils/constants/app_colors.dart';
 import 'package:pler_to_pler_app/features/settings/children/account_details_screen.dart';
 import 'package:pler_to_pler_app/features/settings/children/earnings_screen.dart';
+import 'package:pler_to_pler_app/features/settings/widgets/confirmation_dialog.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -14,6 +15,39 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+
+  void _showLogoutDialog() {
+    Get.dialog(
+      ConfirmationDialog(
+        icon: Icons.logout,
+        title: 'You really want to logout',
+        confirmLabel: 'Logout',
+        onConfirm: () {
+          Get.back(); // Standard UI behavior: close dialog
+          // In UI testing, you can verify this triggers the correct callback
+        },
+      ),
+    );
+  }
+
+  // --- UI Logic: Show Delete Account Dialog ---
+  void _showDeleteAccountDialog() {
+    Get.dialog(
+      ConfirmationDialog(
+        icon: Icons.person_off,
+        title: 'You really want to delete your account',
+        description: 'This action can not be undone and all your data will be wiped. Do you wish to continue?',
+        confirmLabel: 'Delete account',
+        isDeleteAction: true,
+        showCancel: true,
+        onConfirm: () {
+          Get.back(); // Standard UI behavior: close dialog
+        },
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -100,16 +134,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // --- About Section ---
             _buildContainerCard(
               label: 'About',
-              sublabel: 'App version 1.58.7.1', // Version alignment
+              sublabel: 'App version 1.58.7.1',
               children: [
                 _buildCardListWidget(label: 'Privacy Policy', onTap: () {}),
                 _buildCardListWidget(label: 'Terms of Service', onTap: () {}),
-                _buildCardListWidget(label: 'Logout', onTap: () {}),
                 _buildCardListWidget(
-                  label: 'Delete my acount',
-                  onTap: () {},
+                  label: 'Logout',
+                  onTap: _showLogoutDialog, // Triggering the UI dialog
+                ),
+                _buildCardListWidget(
+                  label: 'Delete my account',
+                  onTap: _showDeleteAccountDialog, // Triggering the UI dialog
                   isSpacer: false,
-                  textColor: Colors.redAccent, // Red text for danger action
+                  textColor: Colors.redAccent,
                 ),
               ],
             ),
@@ -126,7 +163,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     required List<Widget> children,
   }) {
     return CustomContainer(
-      radiusAll: 20.r, // More rounded corners
+      radiusAll: 20.r,
       paddingAll: 16.r,
       color: Colors.white,
       width: double.infinity,
@@ -137,19 +174,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              CustomText(
-                text: label,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.sp,
-                bottom: 12.h,
-              ),
+              CustomText(text: label, fontWeight: FontWeight.bold, fontSize: 16.sp, bottom: 12.h),
               if (sublabel != null)
-                CustomText(
-                  text: sublabel,
-                  fontSize: 11.sp,
-                  bottom: 12.h,
-                  color: Colors.grey,
-                ),
+                CustomText(text: sublabel, fontSize: 11.sp, bottom: 12.h, color: Colors.grey),
             ],
           ),
           Column(children: children),

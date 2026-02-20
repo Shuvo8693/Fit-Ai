@@ -27,12 +27,11 @@ class LoginScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                ImagePath.appLogo,
-                width: 84.w,
-                height: 84.h,
+                ImagePath.splash3,
+                width: 150.w,
+                height: 150.h,
                 fit: BoxFit.cover,
               ),
-              SizedBox(height: 16.h),
               CustomText(
                 text: "Sign in to  fitness",
                 fontSize: 32.sp,

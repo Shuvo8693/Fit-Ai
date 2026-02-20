@@ -51,7 +51,7 @@ class OnboardingSelectionScreen extends StatelessWidget {
                           log("Go to fitness login");
                           Get.offAll(() => LoginScreen());
                         },
-                        imagePath: ImagePath.appLogo,
+                        imagePath: ImagePath.splash3,
                         title: 'Fitness',
                         subTitle:
                             'Personal workouts, trainer sessions,  plans and\nmore',

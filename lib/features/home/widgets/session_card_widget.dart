@@ -31,7 +31,7 @@ class SessionsCardWidget extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Assets.icons.videoCall.svg(height: 32.r, width: 32.r),
+            // Assets.icons.videoCall.svg(height: 32.r, width: 32.r),
             SizedBox(width: 8.w),
             Assets.icons.calender.svg(height: 32.r, width: 32.r),
           ],

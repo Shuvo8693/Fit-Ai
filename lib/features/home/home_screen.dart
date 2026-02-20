@@ -158,7 +158,7 @@ class HomeScreen extends StatelessWidget {
 
             SizedBox(height: 8.h),
 
-            AiInsightWidget(),
+            // AiInsightWidget(),
 
             SizedBox(height: 100.h),
           ],
