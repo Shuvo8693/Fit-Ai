@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pler_to_pler_app/core/utils/constants/app_colors.dart';
 import 'package:pler_to_pler_app/core/utils/constants/image_path.dart';
+import 'package:pler_to_pler_app/core/utils/helpers/prefs_helper.dart';
 import 'package:pler_to_pler_app/features/authentication/controllers/login_controller.dart';
 import 'package:pler_to_pler_app/features/authentication/presentation/screens/sign_up_screen.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
@@ -107,17 +108,22 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 24.h),
-              CustomButton(
+              Obx((){
+                String role =controller.selectedTab.value;
+                return  CustomButton(
                   label: "Sign in",
-                  onPressed: () {
+                  onPressed: () async{
                     if (_formKey.currentState!.validate()) {
                       log("Validate");
+                      await PrefsHelper.setString('role', role);
                       Get.offAll(() => NavBar());
                     } else {
                       log("Not validate");
                     }
                   },
-                ),
+                );
+               }
+              ),
               SizedBox(height: 16.h),
               Row(
                 children: [

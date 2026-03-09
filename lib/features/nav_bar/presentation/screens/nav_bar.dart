@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pler_to_pler_app/core/utils/constants/app_colors.dart';
+import 'package:pler_to_pler_app/core/utils/helpers/prefs_helper.dart';
 import 'package:pler_to_pler_app/custom_assets/assets.gen.dart';
 import 'package:pler_to_pler_app/features/home/home_screen.dart';
+import 'package:pler_to_pler_app/features/home/user_home_screen.dart';
 import 'package:pler_to_pler_app/features/nav_bar/controllers/nav_bar_controller.dart';
 import 'package:pler_to_pler_app/features/nav_bar/presentation/screens/widgets/nav_fab_widget.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
@@ -24,14 +26,26 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   final NavBarController _navBarController = Get.find<NavBarController>();
-
-  final List<Widget> _screens = [
-    HomeScreen(),
+  String _role = '';
+  late final List<Widget> _screens = [
+   _role == 'Trainer' ? HomeScreen() : UserHomeScreen(),
     ClientsScreen(),
     ContentsScreen(),
     HomeScreen(),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((__)async{
+      getRole();
+    });
+  }
+ Future<void> getRole()async{
+    String? role = await PrefsHelper.getString('role');
+    _role = role;
+    setState(() {});
+}
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -144,10 +158,10 @@ class _NavBarState extends State<NavBar> {
     );
   }
 
-  final List<Map<String, dynamic>> _navItems = [
+  late final List<Map<String, dynamic>> _navItems = [
     {"icon": Assets.icons.home.path, "label": "Home"},
-    {"icon": Assets.icons.clients.path, "label": "Clients"},
+    {"icon": _role == 'Trainer' ? Assets.icons.clients.path: Assets.icons.schedules.path , "label": _role == 'Trainer' ? "Clients" : "Plans"},
     {"icon": Assets.icons.contents.path, "label": "Contents"},
-    {"icon": Assets.icons.schedules.path, "label": "schedules"},
+    {"icon": _role == 'Trainer' ? Assets.icons.schedules.path: Assets.icons.progress.path, "label":_role == 'Trainer' ? "Schedules" : "Progress"},
   ];
 }

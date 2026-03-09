@@ -32,6 +32,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/Stripe.svg
   SvgGenImage get stripe => const SvgGenImage('assets/icons/Stripe.svg');
 
+  /// File path: assets\icons\progress.svg
+  SvgGenImage get progress => const SvgGenImage('assets/icons/progress.svg');
+
   /// File path: assets/icons/add_button.svg
   SvgGenImage get addButton => const SvgGenImage('assets/icons/add_button.svg');
 
@@ -114,6 +117,7 @@ class $AssetsIconsGen {
     payoneer,
     schedules,
     stripe,
+    progress,
     addButton,
     ai,
     arrowBack,

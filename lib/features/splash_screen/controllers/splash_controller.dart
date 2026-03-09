@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:pler_to_pler_app/features/nav_bar/presentation/screens/nav_bar.dart';
 import 'package:pler_to_pler_app/features/onboarding/presentation/screens/onboarding_main_screen.dart';
 
 class SplashController extends GetxController with GetSingleTickerProviderStateMixin {
@@ -52,7 +53,8 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
     await Future.delayed(const Duration(milliseconds: 1000));
 
     // Final Navigation
-    Get.offAll(() =>  OnboardingMainScreen());
+    // Get.offAll(() =>  OnboardingMainScreen());
+    Get.offAll(() =>  NavBar());
   }
 
   @override
