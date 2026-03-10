@@ -1,18 +1,10 @@
-# pler_to_pler_app
+FitAI is a Flutter-based fitness companion app that leverages AI to generate personalized workout plans tailored to each user's goals, available equipment, workout location, and preferred intensity.
+The app features a multi-step onboarding flow that collects user preferences, then uses AI to instantly generate a customized exercise plan. Users can track daily progress, browse workout video shorts, monitor calorie and macro intake, and manage their weekly schedule — all from a clean, modern UI built with ScreenUtil for full responsiveness across device sizes.
+Key features:
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-
+AI-powered workout plan generation via multi-step questionnaire
+Weekly schedule with daily task progress tracking
+Exercise summary dashboard with bar chart, stats, and calorie intake
+Workout video feed with shorts, likes, comments, and a video player
+Assigned and saved workout management
+Activity history with completed/missed status tracking
