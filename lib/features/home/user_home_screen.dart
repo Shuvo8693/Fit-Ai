@@ -7,6 +7,7 @@ import 'package:pler_to_pler_app/custom_assets/assets.gen.dart';
 import 'package:pler_to_pler_app/features/common/notification/presentation/screen/notification_screen.dart';
 import 'package:pler_to_pler_app/features/profile/profile_screen.dart';
 import 'package:pler_to_pler_app/routes/app_routes.dart';
+import 'package:pler_to_pler_app/widgets/app_bar.dart';
 import 'package:pler_to_pler_app/widgets/custom_app_bar.dart';
 import 'package:pler_to_pler_app/widgets/custom_button.dart';
 import 'package:pler_to_pler_app/widgets/custom_container.dart';
@@ -24,62 +25,13 @@ class UserHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
-      appBar: CustomAppBar(
-        titleWidget: GestureDetector(
-          onTap: () {
-            Get.to(() => ProfileScreen());
-          },
-          child: ListTile(
-            leading: CustomImageAvatar(
-              image: '',
-              radius: 22.r,
-              showBorder: true,
-            ),
-            title: Row(
-              children: [
-                CustomText(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18.sp,
-                  textAlign: TextAlign.start,
-                  text: 'Hi Maxime!!',
-                ),
 
-                SizedBox(width: 6.w),
-                CustomContainer(
-                  paddingHorizontal: 8.w,
-                  radiusAll: 100.r,
-                  bordersColor: AppColors.textSecondary,
-                  child: Row(
-                    children: [
-                      Icon(Icons.circle, color: Colors.green, size: 14.r),
-                      CustomText(text: 'Online', fontSize: 12.sp, left: 4.w),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            subtitle: CustomText(
-              textAlign: TextAlign.start,
-              fontSize: 12.sp,
-              color: AppColors.textSecondary,
-              text: 'Let’s Manage your  users',
-            ),
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Get.to(() => NotificationsScreen());
-            },
-            icon: Assets.icons.notification.svg(height: 48.r, width: 48.r),
-          ),
-        ],
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              FeedAppBar(),
               _HeroBanner(),
               SizedBox(height: 20.h),
               _DailyToDoSection(),

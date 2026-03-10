@@ -29,7 +29,7 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   final NavBarController _navBarController = Get.find<NavBarController>();
-  String _role = '';
+
   late final List<Widget> _screens = [
    _role == 'Trainer' ? HomeScreen() : UserHomeScreen(),
     _role == 'Trainer' ? ClientsScreen() : WorkoutPlansScreen(),
@@ -37,6 +37,7 @@ class _NavBarState extends State<NavBar> {
     _role == 'Trainer' ? HomeScreen(): ExerciseSummaryScreen(),
   ];
 
+  String _role = '';
   @override
   void initState() {
     super.initState();

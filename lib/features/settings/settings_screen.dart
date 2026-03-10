@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pler_to_pler_app/core/utils/constants/app_colors.dart';
+import 'package:pler_to_pler_app/core/utils/helpers/prefs_helper.dart';
 import 'package:pler_to_pler_app/features/settings/children/account_details_screen.dart';
 import 'package:pler_to_pler_app/features/settings/children/earnings_screen.dart';
+import 'package:pler_to_pler_app/features/settings/children/invoices_screen.dart';
 import 'package:pler_to_pler_app/features/settings/widgets/confirmation_dialog.dart';
+import 'package:pler_to_pler_app/features/user/user_profile/presentation/invoice_screens.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -45,6 +48,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
         },
       ),
     );
+  }
+
+  String _role = '';
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((__)async{
+      getRole();
+    });
+  }
+  Future<void> getRole()async{
+    String? role = await PrefsHelper.getString('role');
+    _role = role;
+    setState(() {});
   }
 
 
@@ -120,6 +138,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _buildCardListWidget(
                   label: 'Earnings',
                   onTap: () => Get.to(() => const EarningsScreen()),
+                ),
+                _buildCardListWidget(
+                  label: 'Invoice',
+                  onTap: () => Get.to(() => _role=='Trainer'? const InvoicesScreen(): UserInvoicesScreen()),
                 ),
                 _buildCardListWidget(
                   label: 'Privacy & Security',

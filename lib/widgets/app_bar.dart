@@ -1,10 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:pler_to_pler_app/core/utils/helpers/prefs_helper.dart';
+import 'package:pler_to_pler_app/features/common/notification/presentation/screen/notification_screen.dart';
+import 'package:pler_to_pler_app/features/profile/profile_screen.dart';
+import 'package:pler_to_pler_app/features/user/user_profile/presentation/user_profile_screen.dart';
 
 // ─── Feed App Bar ─────────────────────────────────────────────────────────────
-class FeedAppBar extends StatelessWidget {
+class FeedAppBar extends StatefulWidget {
   const FeedAppBar({super.key});
 
+  @override
+  State<FeedAppBar> createState() => _FeedAppBarState();
+}
+
+class _FeedAppBarState extends State<FeedAppBar> {
+  String _role = '';
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((__)async{
+      getRole();
+    });
+  }
+  Future<void> getRole()async{
+    String? role = await PrefsHelper.getString('role');
+    _role = role;
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -12,10 +36,15 @@ class FeedAppBar extends StatelessWidget {
       child: Row(
         children: [
           // Avatar
-          CircleAvatar(
-            radius: 22.r,
-            backgroundImage: const NetworkImage(
-              'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200',
+          GestureDetector(
+            onTap: (){
+              Get.to(() =>_role=='Trainer'? ProfileScreen(): UserProfileScreen());
+            },
+            child: CircleAvatar(
+              radius: 22.r,
+              backgroundImage: const NetworkImage(
+                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200',
+              ),
             ),
           ),
           SizedBox(width: 10.w),
@@ -80,17 +109,22 @@ class FeedAppBar extends StatelessWidget {
           Stack(
             clipBehavior: Clip.none,
             children: [
-              Container(
-                width: 38.w,
-                height: 38.h,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(color: Colors.black12, blurRadius: 6, offset: const Offset(0, 2)),
-                  ],
+              GestureDetector(
+                onTap: (){
+                  Get.to(() => NotificationsScreen());
+                },
+                child: Container(
+                  width: 38.w,
+                  height: 38.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(color: Colors.black12, blurRadius: 6, offset: const Offset(0, 2)),
+                    ],
+                  ),
+                  child: Icon(Icons.notifications_none, size: 20.sp, color: Colors.black87),
                 ),
-                child: Icon(Icons.notifications_none, size: 20.sp, color: Colors.black87),
               ),
               Positioned(
                 top: -4.h,

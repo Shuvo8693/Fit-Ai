@@ -8,6 +8,7 @@ import 'package:pler_to_pler_app/features/common/notification/presentation/scree
 import 'package:pler_to_pler_app/features/home/widgets/ai_insight_widget.dart';
 import 'package:pler_to_pler_app/features/home/widgets/session_card_widget.dart';
 import 'package:pler_to_pler_app/features/profile/profile_screen.dart';
+import 'package:pler_to_pler_app/widgets/app_bar.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -16,61 +17,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: CustomAppBar(
-        titleWidget: GestureDetector(
-          onTap: () {
-            Get.to(() => ProfileScreen());
-          },
-          child: ListTile(
-            leading: CustomImageAvatar(
-              image: '',
-              radius: 22.r,
-              showBorder: true,
-            ),
-            title: Row(
-              children: [
-                CustomText(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18.sp,
-                  textAlign: TextAlign.start,
-                  text: 'Hi Maxime!!',
-                ),
-
-                SizedBox(width: 6.w),
-                CustomContainer(
-                  paddingHorizontal: 8.w,
-                  radiusAll: 100.r,
-                  bordersColor: AppColors.textSecondary,
-                  child: Row(
-                    children: [
-                      Icon(Icons.circle, color: Colors.green, size: 14.r),
-                      CustomText(text: 'Online', fontSize: 12.sp, left: 4.w),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            subtitle: CustomText(
-              textAlign: TextAlign.start,
-              fontSize: 12.sp,
-              color: AppColors.textSecondary,
-              text: 'Let’s Manage your  users',
-            ),
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Get.to(() => NotificationsScreen());
-            },
-            icon: Assets.icons.notification.svg(height: 48.r, width: 48.r),
-          ),
-        ],
-      ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [
+            FeedAppBar(),
             SizedBox(height: 24.h),
             CustomContainer(
               radiusAll: 16.r,
