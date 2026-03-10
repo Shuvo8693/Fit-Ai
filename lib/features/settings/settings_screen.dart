@@ -7,6 +7,7 @@ import 'package:pler_to_pler_app/features/settings/children/account_details_scre
 import 'package:pler_to_pler_app/features/settings/children/earnings_screen.dart';
 import 'package:pler_to_pler_app/features/settings/children/invoices_screen.dart';
 import 'package:pler_to_pler_app/features/settings/widgets/confirmation_dialog.dart';
+import 'package:pler_to_pler_app/features/user/connect_device/presentation/connect_device_screen.dart';
 import 'package:pler_to_pler_app/features/user/user_profile/presentation/invoice_screens.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
 
@@ -138,6 +139,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _buildCardListWidget(
                   label: 'Earnings',
                   onTap: () => Get.to(() => const EarningsScreen()),
+                ),
+                _buildCardListWidget(
+                  label: 'Connect Device',
+                  onTap: () => Get.to(() => const ConnectDeviceScreen()),
                 ),
                 _buildCardListWidget(
                   label: 'Invoice',

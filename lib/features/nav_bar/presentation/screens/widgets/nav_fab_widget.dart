@@ -43,14 +43,14 @@ class NavFabWidget {
                         onPostContent?.call();
                       },
                     ),
-                    // _buildMenuItem(
-                    //   icon: Assets.icons.schedules.svg(),
-                    //   label: 'Add a schedule',
-                    //   onTap: () {
-                    //     Get.back();
-                    //     onAddSchedule?.call();
-                    //   },
-                    // ),
+                    _buildMenuItem(
+                      icon: Assets.icons.person.svg(),
+                      label: 'Find Trainer',
+                      onTap: () {
+                        Get.back();
+                        onAddSchedule?.call();
+                      },
+                    ),
                     _buildMenuItem(
                       icon: Assets.icons.exercise.svg(),
                       label: 'Add exercise plan',

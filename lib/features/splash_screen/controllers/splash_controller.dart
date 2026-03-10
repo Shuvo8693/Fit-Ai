@@ -53,8 +53,8 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
     await Future.delayed(const Duration(milliseconds: 1000));
 
     // Final Navigation
-    // Get.offAll(() =>  OnboardingMainScreen());
-    Get.offAll(() =>  NavBar());
+    Get.offAll(() =>  OnboardingMainScreen());
+    // Get.offAll(() =>  NavBar());
   }
 
   @override

@@ -10,7 +10,9 @@ import 'package:pler_to_pler_app/features/home/home_screen.dart';
 import 'package:pler_to_pler_app/features/home/user_home_screen.dart';
 import 'package:pler_to_pler_app/features/nav_bar/controllers/nav_bar_controller.dart';
 import 'package:pler_to_pler_app/features/nav_bar/presentation/screens/widgets/nav_fab_widget.dart';
+import 'package:pler_to_pler_app/features/trainer/schedule/presentation/trainer_home_schedule_screen.dart';
 import 'package:pler_to_pler_app/features/user/contents/presentations/feed_screen.dart';
+import 'package:pler_to_pler_app/features/user/find_trainer/presentation/find_trainer_screen.dart';
 import 'package:pler_to_pler_app/features/user/progress/presentation/exercise_summary_screen.dart';
 import 'package:pler_to_pler_app/features/user/workout_pan/presentation/workout_plan_screen.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
@@ -29,27 +31,26 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   final NavBarController _navBarController = Get.find<NavBarController>();
-
-  late final List<Widget> _screens = [
-   _role == 'Trainer' ? HomeScreen() : UserHomeScreen(),
-    _role == 'Trainer' ? ClientsScreen() : WorkoutPlansScreen(),
-    _role == 'Trainer' ? ContentsScreen(): FeedScreen(),
-    _role == 'Trainer' ? HomeScreen(): ExerciseSummaryScreen(),
+  String _role = '';
+  List<Widget> get _screens => [
+    _role == 'Trainer' ? const HomeScreen() : const UserHomeScreen(),
+    _role == 'Trainer' ? const ClientsScreen() : const WorkoutPlansScreen(),
+    _role == 'Trainer' ? const ContentsScreen() : const FeedScreen(),
+    _role == 'Trainer' ? const ScheduleScreen() : const ExerciseSummaryScreen(),
   ];
 
-  String _role = '';
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((__)async{
-      getRole();
+    getRole();  // ✅ No need for addPostFrameCallback here
+  }
+
+  Future<void> getRole() async {
+    String? role = await PrefsHelper.getString('role');
+    setState(() {
+      _role = role; // ✅ Handle null safely
     });
   }
- Future<void> getRole()async{
-    String? role = await PrefsHelper.getString('role');
-    _role = role;
-    setState(() {});
-}
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -71,7 +72,7 @@ class _NavBarState extends State<NavBar> {
                   filter: ImageFilter.blur(sigmaX: 320, sigmaY: 320),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFF000000).withOpacity(0.08),
+                      color: Color(0xFF000000).withOpacity(0.01),
                       borderRadius: BorderRadius.circular(16.r),
                       boxShadow: [
                         BoxShadow(
@@ -103,6 +104,7 @@ class _NavBarState extends State<NavBar> {
                               },
                               onAddSchedule: () {
                                 // Logic for adding schedules can go here
+                                Get.to(() => const FindTrainerScreen());
                                 debugPrint("Add Schedule clicked");
                               },
                               onAddExercise: () {
@@ -162,7 +164,7 @@ class _NavBarState extends State<NavBar> {
     );
   }
 
-  late final List<Map<String, dynamic>> _navItems = [
+    List<Map<String, dynamic>> get _navItems => [
     {"icon": Assets.icons.home.path, "label": "Home"},
     {"icon": _role == 'Trainer' ? Assets.icons.clients.path: Assets.icons.schedules.path , "label": _role == 'Trainer' ? "Clients" : "Plans"},
     {"icon": Assets.icons.contents.path, "label": "Contents"},

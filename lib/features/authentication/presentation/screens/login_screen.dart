@@ -109,17 +109,18 @@ class LoginScreen extends StatelessWidget {
               ),
               SizedBox(height: 24.h),
               Obx((){
-                String role =controller.selectedTab.value;
+                String role = controller.selectedTab.value;
                 return  CustomButton(
                   label: "Sign in",
                   onPressed: () async{
-                    if (_formKey.currentState!.validate()) {
-                      log("Validate");
-                      await PrefsHelper.setString('role', role);
-                      Get.offAll(() => NavBar());
-                    } else {
-                      log("Not validate");
-                    }
+                    log(role);
+                    await PrefsHelper.setString('role', role);
+                    Get.offAll(() => NavBar());
+                    // if (_formKey.currentState!.validate()) {
+                    //
+                    // } else {
+                    //   log("Not validate");
+                    // }
                   },
                 );
                }
