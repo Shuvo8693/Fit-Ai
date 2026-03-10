@@ -10,6 +10,9 @@ import 'package:pler_to_pler_app/features/home/home_screen.dart';
 import 'package:pler_to_pler_app/features/home/user_home_screen.dart';
 import 'package:pler_to_pler_app/features/nav_bar/controllers/nav_bar_controller.dart';
 import 'package:pler_to_pler_app/features/nav_bar/presentation/screens/widgets/nav_fab_widget.dart';
+import 'package:pler_to_pler_app/features/user/contents/presentations/feed_screen.dart';
+import 'package:pler_to_pler_app/features/user/progress/presentation/exercise_summary_screen.dart';
+import 'package:pler_to_pler_app/features/user/workout_pan/presentation/workout_plan_screen.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
 import '../../../trainer/assignedPlan/presentation/screen/assigned_plan_screen.dart';
 import '../../../trainer/clients/presentation/screens/clients_screen.dart';
@@ -29,9 +32,9 @@ class _NavBarState extends State<NavBar> {
   String _role = '';
   late final List<Widget> _screens = [
    _role == 'Trainer' ? HomeScreen() : UserHomeScreen(),
-    ClientsScreen(),
-    ContentsScreen(),
-    HomeScreen(),
+    _role == 'Trainer' ? ClientsScreen() : WorkoutPlansScreen(),
+    _role == 'Trainer' ? ContentsScreen(): FeedScreen(),
+    _role == 'Trainer' ? HomeScreen(): ExerciseSummaryScreen(),
   ];
 
   @override
