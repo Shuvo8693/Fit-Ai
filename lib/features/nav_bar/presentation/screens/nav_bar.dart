@@ -42,17 +42,10 @@ class _NavBarState extends State<NavBar> {
 
   List<Map<String, dynamic>> get _navItems => [
     {"icon": Assets.icons.home.path, "label": "Home"},
-    {
-      "icon": _role == 'Trainer'
-          ? Assets.icons.clients.path
-          : Assets.icons.schedules.path,
-      "label": _role == 'Trainer' ? "Clients" : "Plans"
-    },
+    {"icon": _role == 'Trainer' ? Assets.icons.clients.path : Assets.icons.schedules.path,
+      "label": _role == 'Trainer' ? "Clients" : "Plans"},
     {"icon": Assets.icons.contents.path, "label": "Contents"},
-    {
-      "icon": _role == 'Trainer'
-          ? Assets.icons.schedules.path
-          : Assets.icons.progress.path,
+    {"icon": _role == 'Trainer' ? Assets.icons.schedules.path : Assets.icons.progress.path,
       "label": _role == 'Trainer' ? "Schedules" : "Progress"
     },
   ];
@@ -102,7 +95,7 @@ class _NavBarState extends State<NavBar> {
             child: Container(
               decoration: BoxDecoration(
                 // Slight white tint so icons are readable
-                color: Colors.white.withOpacity(0.85),
+                color: Colors.grey.withOpacity(0.5),
                 borderRadius: BorderRadius.circular(16.r),
                 boxShadow: [
                   BoxShadow(
