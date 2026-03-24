@@ -32,6 +32,7 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   final NavBarController _navBarController = Get.find<NavBarController>();
   String _role = '';
+
   List<Widget> get _screens => [
     _role == 'Trainer' ? const HomeScreen() : const UserHomeScreen(),
     _role == 'Trainer' ? const ClientsScreen() : const WorkoutPlansScreen(),
@@ -39,135 +40,154 @@ class _NavBarState extends State<NavBar> {
     _role == 'Trainer' ? const ScheduleScreen() : const ExerciseSummaryScreen(),
   ];
 
+  List<Map<String, dynamic>> get _navItems => [
+    {"icon": Assets.icons.home.path, "label": "Home"},
+    {
+      "icon": _role == 'Trainer'
+          ? Assets.icons.clients.path
+          : Assets.icons.schedules.path,
+      "label": _role == 'Trainer' ? "Clients" : "Plans"
+    },
+    {"icon": Assets.icons.contents.path, "label": "Contents"},
+    {
+      "icon": _role == 'Trainer'
+          ? Assets.icons.schedules.path
+          : Assets.icons.progress.path,
+      "label": _role == 'Trainer' ? "Schedules" : "Progress"
+    },
+  ];
+
   @override
   void initState() {
     super.initState();
-    getRole();  // ✅ No need for addPostFrameCallback here
+    _loadRole();
   }
 
-  Future<void> getRole() async {
-    String? role = await PrefsHelper.getString('role');
-    setState(() {
-      _role = role; // ✅ Handle null safely
-    });
+  Future<void> _loadRole() async {
+    final role = await PrefsHelper.getString('role');
+    setState(() => _role = role ?? '');
   }
+
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Scaffold(
+          () => Scaffold(
         backgroundColor: AppColors.backgroundLight,
-        //extendBody: true,
-        body: Stack(
-          children: [
-            // Main screen content
-            _screens[_navBarController.selectedIndex.value],
 
-            Positioned(
-              bottom: 24.h,
-              left: 16.w,
-              right: 16.w,
-              child: ClipRRect(
+        // ✅ Use extendBody so body renders behind the nav bar.
+        //    The blur/transparent nav bar will show body content through it.
+        extendBody: true,
+
+        // ✅ Body is just the IndexedStack — no Column wrapping needed.
+        body: IndexedStack(
+          index: _navBarController.selectedIndex.value,
+          children: _screens,
+        ),
+
+        // ✅ Nav bar goes in bottomNavigationBar, NOT inside body.
+        bottomNavigationBar: _buildNavBar(context),
+      ),
+    );
+  }
+
+  Widget _buildNavBar(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(12.w, 0, 12.w, 8.h),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16.r),
+          child: BackdropFilter(
+            // ✅  Blur sigma 10–16 — NOT 320 (that caused the grey wash)
+            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+            child: Container(
+              decoration: BoxDecoration(
+                // Slight white tint so icons are readable
+                color: Colors.white.withOpacity(0.85),
                 borderRadius: BorderRadius.circular(16.r),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 320, sigmaY: 320),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xFF000000).withOpacity(0.01),
-                      borderRadius: BorderRadius.circular(16.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF000000).withOpacity(0.10),
-                          offset: Offset(0, 4),
-                          blurRadius: 6,
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                    padding: EdgeInsets.only(
-                      top: 16.h,
-                      right: 12.w,
-                      bottom: 16.h,
-                      left: 12.w,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildNavItem(0),
-                        _buildNavItem(1),
-                        GestureDetector(
-                          onTap: () {
-                            NavFabWidget.instance.show(
-                              context,
-                              onPostContent: () {
-                                // Navigates to the screen designed from image_b98f83.png
-                                Get.to(() => const ContentPostScreen());
-                              },
-                              onAddSchedule: () {
-                                // Logic for adding schedules can go here
-                                Get.to(() => const FindTrainerScreen());
-                                debugPrint("Add Schedule clicked");
-                              },
-                              onAddExercise: () {
-                                Get.to(() => const CreateExercisePlanScreen());
-                                debugPrint("Add Exercise clicked");
-                              },
-                            );
-                          },
-                          child: Assets.icons.addButton.svg(
-                            height: 48.h, // Adjusted slightly for better touch target
-                            width: 48.w,
-                          ),
-                        ),
-                        _buildNavItem(2),
-                        _buildNavItem(3),
-                      ],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.10),
+                    offset: const Offset(0, 4),
+                    blurRadius: 6,
+                  ),
+                ],
+              ),
+              padding: EdgeInsets.symmetric(
+                vertical: 12.h,
+                horizontal: 12.w,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildNavItem(0),
+                  _buildNavItem(1),
+
+                  // Centre FAB button
+                  GestureDetector(
+                    onTap: () {
+                      NavFabWidget.instance.show(
+                        context,
+                        onPostContent: () =>
+                            Get.to(() => const ContentPostScreen()),
+                        onAddSchedule: () =>
+                            Get.to(() => const FindTrainerScreen()),
+                        onAddExercise: () =>
+                            Get.to(() => const CreateExercisePlanScreen()),
+                      );
+                    },
+                    child: Assets.icons.addButton.svg(
+                      height: 48.h,
+                      width: 48.w,
                     ),
                   ),
-                ),
+
+                  _buildNavItem(2),
+                  _buildNavItem(3),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildNavItem(int index) {
-    bool isSelected = _navBarController.selectedIndex.value == index;
+    final bool isSelected =
+        _navBarController.selectedIndex.value == index;
+
     return GestureDetector(
       onTap: () => _navBarController.onChange(index),
+      behavior: HitTestBehavior.opaque, // ✅ larger tap area
       child: SizedBox(
-        //height: 40.h,
-        width: 60.w,
+        width: 56.w,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             SvgPicture.asset(
-              color: isSelected
-                  ? AppColors.textPrimary
-                  : AppColors.textSecondary,
               _navItems[index]["icon"],
               width: 24.w,
               height: 24.h,
+              colorFilter: ColorFilter.mode(
+                isSelected
+                    ? AppColors.textPrimary
+                    : AppColors.textSecondary,
+                BlendMode.srcIn,
+              ),
             ),
+            SizedBox(height: 3.h),
             CustomText(
+              text: _navItems[index]["label"],
+              fontSize: 11.sp,
+              fontWeight:
+              isSelected ? FontWeight.w600 : FontWeight.w400,
               color: isSelected
                   ? AppColors.textPrimary
                   : AppColors.textSecondary,
-              text: _navItems[index]["label"],
-              fontSize: 12.sp,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
             ),
           ],
         ),
       ),
     );
   }
-
-    List<Map<String, dynamic>> get _navItems => [
-    {"icon": Assets.icons.home.path, "label": "Home"},
-    {"icon": _role == 'Trainer' ? Assets.icons.clients.path: Assets.icons.schedules.path , "label": _role == 'Trainer' ? "Clients" : "Plans"},
-    {"icon": Assets.icons.contents.path, "label": "Contents"},
-    {"icon": _role == 'Trainer' ? Assets.icons.schedules.path: Assets.icons.progress.path, "label":_role == 'Trainer' ? "Schedules" : "Progress"},
-  ];
 }
