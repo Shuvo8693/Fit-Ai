@@ -5,12 +5,9 @@ import 'package:get/get.dart';
 import 'package:pler_to_pler_app/core/utils/constants/app_colors.dart';
 import 'package:pler_to_pler_app/core/utils/constants/image_path.dart';
 import 'package:pler_to_pler_app/core/utils/helpers/prefs_helper.dart';
-import 'package:pler_to_pler_app/features/authentication/controllers/login_controller.dart';
+import 'package:pler_to_pler_app/features/authentication/presentation/controllers/login_controller.dart';
 import 'package:pler_to_pler_app/features/authentication/presentation/screens/sign_up_screen.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
-
-import '../../../nav_bar/presentation/screens/nav_bar.dart';
-
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -112,16 +109,14 @@ class LoginScreen extends StatelessWidget {
                 String role = controller.selectedTab.value;
                 return  CustomButton(
                   label: "Sign in",
-                  onPressed: () async{
-                    log(role);
-                    await PrefsHelper.setString('role', role);
-                    Get.offAll(() => NavBar());
-                    // if (_formKey.currentState!.validate()) {
-                    //
-                    // } else {
-                    //   log("Not validate");
-                    // }
-                  },
+                  onPressed: controller.isLoading.value 
+                      ? null 
+                      : () async {
+                          log(role);
+                          await PrefsHelper.setString('role', role);
+                          await controller.handleLogin();
+                        },
+                  isLoading: controller.isLoading.value,
                 );
                }
               ),

@@ -32,6 +32,9 @@ dependencies:
   chat_bubbles: ^1.8.0
   flutter_svg: ^2.2.3
   confetti: ^0.8.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  dio: ^5.9.0
 
 dev_dependencies:
   flutter_test:

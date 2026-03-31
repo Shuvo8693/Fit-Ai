@@ -26,7 +26,8 @@ class CustomButton extends StatelessWidget {
       this.title,
       this.iconHeight,
       this.iconWidth,
-      this.elevation = false});
+      this.elevation = false,
+      this.isLoading = false});
 
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -48,49 +49,58 @@ class CustomButton extends StatelessWidget {
   final double? iconHeight;
   final double? iconWidth;
   final bool elevation;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
       elevation: elevation,
-      onTap: onPressed,
-      color: backgroundColor ?? AppColors.primary,
+      onTap: isLoading ? null : onPressed,
+      color: (backgroundColor ?? AppColors.primary).withOpacity(isLoading ? 0.6 : 1.0),
       height: height ?? 48.h,
       width: width ?? double.infinity,
       radiusAll: radius ?? 16.r,
       bordersColor: bordersColor,
-      child:child?? Row(
+      child: child ?? Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          /// Prefix Icon
-          if (prefixIcon != null || prefixIconShow == true) ...[
-              prefixIcon!,
-
-            SizedBox(width: 8.w),
-          ],
-
-          ?title,
-
-          /// Label Text
-          if (label != null)
-            Flexible(
-              child: CustomText(
-                text: label ?? '',
-                color: foregroundColor ?? Colors.white,
-                fontName: fontName ?? 'Lora',
-                fontWeight: fontWeight ?? FontWeight.w600,
-                fontSize: fontSize ?? 16.sp,
+          if (isLoading)
+            SizedBox(
+              height: 20.h,
+              width: 20.w,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.w,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  foregroundColor ?? Colors.white,
+                ),
               ),
-            ),
+            )
+          else ...[
+            /// Prefix Icon
+            if (prefixIcon != null || prefixIconShow == true) ...[prefixIcon!,
+              SizedBox(width: 8.w),
+            ], ?title,
 
-          /// Suffix Icon
-          if (suffixIcon != null || suffixIconShow == true) ...[
-            SizedBox(width: 8.w),
-            // Use SvgPicture for SVG icons
-            suffixIcon != null
-                ? suffixIcon! // If a custom widget is passed as suffixIcon
-                : Icon(Icons.arrow_forward_ios),
+            /// Label Text
+            if (label != null)
+              Flexible(
+                child: CustomText(
+                  text: label ?? '',
+                  color: foregroundColor ?? Colors.white,
+                  fontName: fontName ?? 'Lora',
+                  fontWeight: fontWeight ?? FontWeight.w600,
+                  fontSize: fontSize ?? 16.sp,
+                ),
+              ),
+
+            /// Suffix Icon
+            if (suffixIcon != null || suffixIconShow == true) ...[
+              SizedBox(width: 8.w),
+              suffixIcon != null
+                  ? suffixIcon!
+                  : const Icon(Icons.arrow_forward_ios),
+            ],
           ],
         ],
       ),

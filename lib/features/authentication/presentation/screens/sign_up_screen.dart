@@ -4,8 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pler_to_pler_app/core/utils/constants/app_colors.dart';
 import 'package:pler_to_pler_app/core/utils/constants/image_path.dart';
-import 'package:pler_to_pler_app/features/authentication/controllers/sign_up_controller.dart';
-import 'package:pler_to_pler_app/features/authentication/presentation/screens/complete_profile/complete_profile_screen.dart';
+import 'package:pler_to_pler_app/features/authentication/presentation/controllers/sign_up_controller.dart';
 import 'package:pler_to_pler_app/features/authentication/presentation/screens/login_screen.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
 
@@ -125,16 +124,21 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 24.h),
-                   CustomButton(
+                   Obx(() {
+                     return CustomButton(
                         label: "Sign up",
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            Get.to(() => CompleteProfileScreen());
-                          } else {
-                            log("Not validate");
-                          }
-                        },
-                      ),
+                        onPressed: controller.isLoading.value
+                            ? null
+                            : () {
+                                if (_formKey.currentState!.validate()) {
+                                  controller.handleSignUp();
+                                } else {
+                                  log("Not validate");
+                                }
+                              },
+                        isLoading: controller.isLoading.value,
+                      );
+                   }),
 
                     SizedBox(height: 16.h),
                     Row(

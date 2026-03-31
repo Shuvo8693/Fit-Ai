@@ -7,9 +7,9 @@ import 'package:http_parser/http_parser.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:pler_to_pler_app/core/utils/constants/app_constants.dart';
 import 'package:pler_to_pler_app/core/utils/helpers/prefs_helper.dart';
-import 'api_urls.dart';
-import 'error_response.dart';
-import 'logger.dart';
+import '../api_urls.dart';
+import '../error_response.dart';
+import '../logger.dart';
 
 
 final log = logger(ApiClient);
