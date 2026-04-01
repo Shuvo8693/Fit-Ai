@@ -15,6 +15,9 @@ class AppConstants{
   static const String managerType = "managerType";
   static const String fcmToken = "fcmToken";
 
+  // Hive cache keys
+  static const String cacheUserProfile = "cache_user_profile";
+  static const int cacheUserProfileExpiration = 300; // 5 minutes in seconds
 
   static RegExp emailValidate = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");

@@ -9,6 +9,7 @@ import 'package:pler_to_pler_app/features/authentication/presentation/controller
 import 'package:pler_to_pler_app/features/authentication/presentation/controllers/sign_up_controller.dart';
 import 'package:pler_to_pler_app/features/nav_bar/controllers/nav_bar_controller.dart';
 import 'package:pler_to_pler_app/features/onboarding/controller/onboarding_controller.dart';
+import 'package:pler_to_pler_app/features/profile/controller/profile_controller.dart';
 import 'package:pler_to_pler_app/features/splash_screen/controllers/splash_controller.dart';
 
 /// Dependency Injection Binder for Clean Architecture
@@ -23,13 +24,13 @@ class ControllerBinder extends Bindings {
     // ============================================
     // AUTHENTICATION LAYER
     // ============================================
-    
+
     // 1. Data Sources
     Get.lazyPut<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(),
       fenix: true,
     );
-    
+
     Get.lazyPut<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(),
       fenix: true,
@@ -49,7 +50,7 @@ class ControllerBinder extends Bindings {
       () => LoginUseCase(Get.find()),
       fenix: true,
     );
-    
+
     Get.lazyPut(
       () => RegisterUseCase(Get.find()),
       fenix: true,
@@ -59,9 +60,16 @@ class ControllerBinder extends Bindings {
     Get.put(
       LoginController(loginUseCase: Get.find()),
     );
-    
+
     Get.put(
       SignUpController(registerUseCase: Get.find()),
+    );
+
+    // ============================================
+    // PROFILE LAYER
+    // ============================================
+    Get.put(
+      ProfileController(),
     );
 
     // ============================================

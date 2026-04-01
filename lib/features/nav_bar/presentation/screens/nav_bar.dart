@@ -10,7 +10,7 @@ import 'package:pler_to_pler_app/features/home/home_screen.dart';
 import 'package:pler_to_pler_app/features/home/user_home_screen.dart';
 import 'package:pler_to_pler_app/features/nav_bar/controllers/nav_bar_controller.dart';
 import 'package:pler_to_pler_app/features/nav_bar/presentation/screens/widgets/nav_fab_widget.dart';
-import 'package:pler_to_pler_app/features/trainer/schedule/presentation/trainer_home_schedule_screen.dart';
+import 'package:pler_to_pler_app/features/trainer/schedule/presentation/screens/trainer_home_schedule_screen.dart';
 import 'package:pler_to_pler_app/features/user/contents/presentations/feed_screen.dart';
 import 'package:pler_to_pler_app/features/user/find_trainer/presentation/find_trainer_screen.dart';
 import 'package:pler_to_pler_app/features/user/progress/presentation/exercise_summary_screen.dart';

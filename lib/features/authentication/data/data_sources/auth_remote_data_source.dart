@@ -1,6 +1,8 @@
+import 'package:pler_to_pler_app/core/utils/constants/app_constants.dart';
+import 'package:pler_to_pler_app/core/utils/helpers/hive_cache_helper.dart';
 import 'package:pler_to_pler_app/features/authentication/data/models/auth_model.dart';
 import 'package:pler_to_pler_app/features/authentication/data/models/user_model.dart';
-import 'package:pler_to_pler_app/services/network/api_client.dart';
+import 'package:pler_to_pler_app/services/network/dio_api_client.dart';
 import 'package:pler_to_pler_app/services/api_urls.dart';
 
 /// Remote Data Source - Handles API calls
@@ -43,19 +45,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
     required String role,
   }) async {
-    final response = await ApiClient.postData(
-      ApiUrls.login,
-      {
+    final response = await NetworkCaller.instance.postRequest(
+      url: ApiUrls.baseUrl + ApiUrls.login,
+      body: {
         'email': email,
         'password': password,
         'role': role.toLowerCase(),
       },
     );
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return AuthModel.fromJson(response.body);
+    if (response.isSuccess) {
+      return AuthModel.fromJson(response.responseBody);
     } else {
-      throw Exception(response.statusText ?? 'Login failed');
+      throw Exception(response.errorMassage);
     }
   }
 
@@ -65,19 +67,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
     required String role,
   }) async {
-    final response = await ApiClient.postData(
-      ApiUrls.register,
-      {
+    final response = await NetworkCaller.instance.postRequest(
+      url: ApiUrls.baseUrl + ApiUrls.register,
+      body: {
         'email': email,
         'password': password,
         'role': role.toLowerCase(),
       },
     );
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return AuthModel.fromJson(response.body);
+    if (response.isSuccess) {
+      return AuthModel.fromJson(response.responseBody);
     } else {
-      throw Exception(response.statusText ?? 'Registration failed');
+      throw Exception(response.errorMassage);
     }
   }
 
@@ -86,46 +88,62 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String email,
     required String otp,
   }) async {
-    final response = await ApiClient.postData(
-      ApiUrls.verifyOtp,
-      {
+    final response = await NetworkCaller.instance.postRequest(
+      url: ApiUrls.baseUrl + ApiUrls.verifyOtp,
+      body: {
         'email': email,
         'otp': otp,
       },
     );
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return AuthModel.fromJson(response.body);
+    if (response.isSuccess) {
+      return AuthModel.fromJson(response.responseBody);
     } else {
-      throw Exception(response.statusText ?? 'OTP verification failed');
+      throw Exception(response.errorMassage);
     }
   }
 
   @override
   Future<void> forgotPassword({required String email}) async {
-    final response = await ApiClient.postData(
-      ApiUrls.forgetPassword,
-      {'email': email},
+    final response = await NetworkCaller.instance.postRequest(
+      url: ApiUrls.baseUrl + ApiUrls.forgetPassword,
+      body: {'email': email},
     );
 
-    if (response.statusCode != 200 && response.statusCode != 201) {
-      throw Exception(response.statusText ?? 'Forgot password failed');
+    if (!response.isSuccess) {
+      throw Exception(response.errorMassage);
     }
   }
 
   @override
   Future<UserModel> getCurrentUser() async {
-    final response = await ApiClient.getData(ApiUrls.userMe);
+    // Try to get cached data first
+    final cachedData = await HiveCacheHelper.getWithExpiration<Map<String, dynamic>>(
+      key: AppConstants.cacheUserProfile,
+    );
 
-    if (response.statusCode == 200) {
-      // Adjust based on actual API response structure
-      if (response.body is Map<String, dynamic>) {
-        return UserModel.fromJson(response.body);
-      } else {
-        throw Exception('Invalid user data format');
-      }
+    if (cachedData != null) {
+      return UserModel.fromJson(cachedData);
+    }
+
+    // Fetch from API if no cache
+    final response = await NetworkCaller.instance.getRequest(
+      url: ApiUrls.baseUrl + ApiUrls.userMe,
+    );
+
+    if (response.isSuccess && response.responseBody != null) {
+      final userModel = UserModel.fromJson(response.responseBody);
+      
+      // Cache the user profile data with expiration
+      await HiveCacheHelper.saveWithExpiration(
+        key: AppConstants.cacheUserProfile,
+        value: userModel.toJson(),
+        expireInSeconds: AppConstants.cacheUserProfileExpiration,
+      );
+      
+      return userModel;
     } else {
-      throw Exception(response.statusText ?? 'Failed to get user data');
+      throw Exception(response.errorMassage);
     }
   }
 
@@ -142,15 +160,24 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     if (bio != null) body['bio'] = bio;
     if (profilePicture != null) body['profilePicture'] = profilePicture;
 
-    final response = await ApiClient.postData(
-      ApiUrls.updateProfile,
-      body,
+    final response = await NetworkCaller.instance.postRequest(
+      url: ApiUrls.baseUrl + ApiUrls.updateProfile,
+      body: body,
     );
 
-    if (response.statusCode == 200 || response.statusCode == 201){
-      return UserModel.fromJson(response.body);
+    if (response.isSuccess) {
+      final userModel = UserModel.fromJson(response.responseBody);
+      
+      // Update cache with new profile data
+      await HiveCacheHelper.saveWithExpiration(
+        key: AppConstants.cacheUserProfile,
+        value: userModel.toJson(),
+        expireInSeconds: AppConstants.cacheUserProfileExpiration,
+      );
+      
+      return userModel;
     } else {
-      throw Exception(response.statusText ?? 'Profile update failed');
+      throw Exception(response.errorMassage);
     }
   }
 }

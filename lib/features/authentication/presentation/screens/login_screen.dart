@@ -7,6 +7,7 @@ import 'package:pler_to_pler_app/core/utils/constants/image_path.dart';
 import 'package:pler_to_pler_app/core/utils/helpers/prefs_helper.dart';
 import 'package:pler_to_pler_app/features/authentication/presentation/controllers/login_controller.dart';
 import 'package:pler_to_pler_app/features/authentication/presentation/screens/sign_up_screen.dart';
+import 'package:pler_to_pler_app/features/nav_bar/presentation/screens/nav_bar.dart';
 import 'package:pler_to_pler_app/widgets/widgets.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -109,11 +110,11 @@ class LoginScreen extends StatelessWidget {
                 String role = controller.selectedTab.value;
                 return  CustomButton(
                   label: "Sign in",
-                  onPressed: controller.isLoading.value 
-                      ? null 
+                  onPressed: controller.isLoading.value ? null
                       : () async {
                           log(role);
                           await PrefsHelper.setString('role', role);
+                          Get.offAll(() => NavBar());
                           await controller.handleLogin();
                         },
                   isLoading: controller.isLoading.value,

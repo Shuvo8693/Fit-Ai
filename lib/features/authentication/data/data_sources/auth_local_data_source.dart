@@ -1,7 +1,8 @@
 import 'package:pler_to_pler_app/core/utils/constants/app_constants.dart';
+import 'package:pler_to_pler_app/core/utils/helpers/hive_cache_helper.dart';
 import 'package:pler_to_pler_app/core/utils/helpers/prefs_helper.dart';
 
-/// Local Data Source - Handles local storage (SharedPreferences, SQLite, etc.)
+/// Local Data Source - Handles local storage (SharedPreferences, Hive, etc.)
 abstract class AuthLocalDataSource {
   Future<void> saveToken(String token);
   Future<String?> getToken();
@@ -26,7 +27,13 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<void> saveUserData(Map<String, dynamic> userData) async {
-    // Save individual user fields
+    // Save to Hive cache for quick access
+    await HiveCacheHelper.save(
+      key: AppConstants.cacheUserProfile,
+      value: userData,
+    );
+
+    // Also save individual fields to SharedPreferences for persistence
     if (userData['email'] != null) {
       await PrefsHelper.setString(AppConstants.email, userData['email']);
     }
@@ -52,6 +59,16 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<Map<String, dynamic>?> getUserData() async {
+    // Try to get from Hive cache first
+    final cachedData = await HiveCacheHelper.get<Map<String, dynamic>>(
+      key: AppConstants.cacheUserProfile,
+    );
+
+    if (cachedData != null) {
+      return cachedData;
+    }
+
+    // Fallback to SharedPreferences
     final email = await PrefsHelper.getString(AppConstants.email);
     final name = await PrefsHelper.getString(AppConstants.name);
     final role = await PrefsHelper.getString(AppConstants.role);
@@ -83,6 +100,9 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     await PrefsHelper.remove(AppConstants.userId);
     await PrefsHelper.remove(AppConstants.isEmailVerified);
     await PrefsHelper.remove(AppConstants.isLogged);
+    
+    // Clear Hive cache
+    await HiveCacheHelper.delete(key: AppConstants.cacheUserProfile);
   }
 
   @override
